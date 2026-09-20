@@ -1,3 +1,4 @@
+<!-- coppa_case_v5.7.1 — Hero compatto: titolo Coppa delle Case sempre su una riga e composizione centrale leggermente rialzata. 20/09/2026 -->
 <!-- coppa_case_v5.7 — Allineamento esclusioni Elfo: excludedFromProgression rispettato in post, bonus e risincronizzazione; import Studenti v3 per correggere riepiloghi già salvati; ascolto realtime dei riepiloghi Elfo in gestione Staff. 20/09/2026 -->
 <!-- coppa_case_v5.6 — Stati Coppa semplificati Attivo/Congelato; inattività mensile automatica a 0 post; snapshot del contributo al congelamento; congelati separati dal roster attivo; record esclusi per congelati/inattivi. 16/09/2026 -->
 <!-- coppa_case_v5.5.2 — Typography refinement: IM FELL English for body copy, Cormorant Garamond for controls/tables; removed Hogwarts · Sala Grande kicker. 16/09/2026 -->
@@ -132,7 +133,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
 .house-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px rgba(0,0,0,.42),0 0 26px color-mix(in srgb,var(--hc),transparent 82%)}
 .house-card.winner{border-color:rgba(237,211,141,.73);box-shadow:0 0 0 1px rgba(236,207,126,.12),0 20px 44px rgba(0,0,0,.46),0 0 30px rgba(205,169,77,.09)}
 .rank{top:13px;right:15px;display:grid;place-items:center;width:44px;height:44px;border:1px solid rgba(235,215,162,.24);border-radius:50%;background:rgba(0,0,0,.23);font-size:1.48rem}
-.house-top{padding-right:54px}.crest{width:56px;height:63px;font-size:1.56rem;filter:drop-shadow(0 7px 9px rgba(0,0,0,.28))}.house-name{font-size:1.22rem}.house-total{font-size:2.55rem;margin-top:19px}.house-month-chip{margin-top:14px;padding:6px 10px;border-color:rgba(235,220,181,.13);background:rgba(0,0,0,.27)}
+.house-top{padding-right:54px}.crest{width:56px;height:63px;display:grid;place-items:center;overflow:hidden;padding:4px;filter:drop-shadow(0 7px 9px rgba(0,0,0,.28))}.crest img{display:block;width:100%;height:100%;object-fit:contain}.house-name{font-size:1.22rem}.house-total{font-size:2.55rem;margin-top:19px}.house-month-chip{margin-top:14px;padding:6px 10px;border-color:rgba(235,220,181,.13);background:rgba(0,0,0,.27)}.stat-icon.house-crest{padding:3px;overflow:hidden}.stat-icon.house-crest img{display:block;width:100%;height:100%;object-fit:contain}
 .hourglass{right:17px;bottom:17px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.36))}
 
 /* Mesi: una rotaia compatta, più leggibile e tattile */
@@ -203,6 +204,35 @@ button,.btn{font-weight:700;letter-spacing:.015em}
 .frozen-roster{margin-top:16px;border:1px solid rgba(86,77,61,.22);border-radius:13px;background:rgba(83,76,65,.055);overflow:hidden}.frozen-roster>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:9px;padding:12px 14px;color:#514a3e;font-weight:850;user-select:none}.frozen-roster>summary::-webkit-details-marker{display:none}.frozen-roster>summary::before{content:"▸";font-size:.72rem;transition:transform .18s ease}.frozen-roster[open]>summary::before{transform:rotate(90deg)}.frozen-roster>summary span:first-of-type{font-family:Georgia,serif;font-size:1.02rem}.frozen-roster>summary small{font-weight:500;color:#817767;font-size:.69rem}.frozen-count{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 7px;border-radius:999px;background:#6e6b64;color:#fff;font-size:.68rem}.frozen-inner{padding:0 12px 13px}.frozen-table-wrap{background:#f4efe4}.frozen-table{min-width:760px}.frozen-table td,.frozen-table th{white-space:normal}.frozen-table .pg-name{color:#625b50}.frozen-summary-points{font-weight:850;color:#6c604e}.reactivate-btn{white-space:nowrap}.frozen-empty{text-align:center!important;padding:20px!important;color:#817767!important}
 tr.month-idle td{background-image:linear-gradient(rgba(180,145,72,.028),rgba(180,145,72,.028))}tr.month-frozen td{background-image:linear-gradient(rgba(104,111,115,.035),rgba(104,111,115,.035))}
 @media(max-width:680px){.frozen-roster>summary{grid-template-columns:auto auto;gap:7px}.frozen-roster>summary small{grid-column:1/-1;padding-left:19px}.roster-legend{align-items:flex-start}.panel-subhelp{font-size:.75rem}}
+
+
+/* ---------- v5.7.1 — Hero più compatto ---------- */
+.hero-copy{
+  transform:translateY(-26px);
+}
+.hero h1{
+  white-space:nowrap;
+  text-wrap:nowrap;
+  font-size:clamp(3.15rem,6.35vw,6.15rem);
+  letter-spacing:.05em;
+}
+.hero-footer{
+  transform:translateY(-12px);
+}
+@media(max-width:760px){
+  .hero-copy{
+    transform:translateY(-14px);
+  }
+  .hero h1{
+    white-space:nowrap;
+    text-wrap:nowrap;
+    font-size:clamp(2.15rem,9.7vw,3.7rem);
+    letter-spacing:.035em;
+  }
+  .hero-footer{
+    transform:translateY(-8px);
+  }
+}
 
 </style>
 </head>
@@ -335,7 +365,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged, setPersistence, browser
 const firebaseConfig={apiKey:"AIzaSyCvd56bSEL02s2OY2PSk7uyFX-CYRB4Vz0",authDomain:"conteggi-eee1b.firebaseapp.com",projectId:"conteggi-eee1b",storageBucket:"conteggi-eee1b.firebasestorage.app",messagingSenderId:"481320219586",appId:"1:481320219586:web:87e974d618a302adfadc5b"};
 const app=initializeApp(firebaseConfig),db=getFirestore(app),auth=getAuth(app);
 const NARRATOR_UID="TFgqfVrFLjW5SwqRFXmEi8tDhtM2",PRIVATE_COLLECTION="coppa_case",PUBLIC_COLLECTION="coppa_case_pubblica",STAFF_SESSIONS="staff_edit_sessions";
-const HOUSES={grifondoro:{name:"Grifondoro",short:"G",color:"#751818",gem:"#d2a832"},tassorosso:{name:"Tassorosso",short:"T",color:"#c99b19",gem:"#3a3128"},corvonero:{name:"Corvonero",short:"C",color:"#214a82",gem:"#b88751"},serpeverde:{name:"Serpeverde",short:"S",color:"#235039",gem:"#c1c5c2"}};
+const HOUSES={grifondoro:{name:"Grifondoro",short:"G",color:"#751818",gem:"#d2a832",crest:"https://i.postimg.cc/FFJVnK3k/grifo.png"},tassorosso:{name:"Tassorosso",short:"T",color:"#c99b19",gem:"#3a3128",crest:"https://i.postimg.cc/dQTjS0rm/tasso.png"},corvonero:{name:"Corvonero",short:"C",color:"#214a82",gem:"#b88751",crest:"https://i.postimg.cc/nVQGwLBs/corvo.png"},serpeverde:{name:"Serpeverde",short:"S",color:"#235039",gem:"#c1c5c2",crest:"https://i.postimg.cc/RCnLb0Kc/serpe.png"}};
 const HOUSE_KEYS=Object.keys(HOUSES),MONTH_NAMES=["Settembre","Ottobre","Novembre","Dicembre","Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno"],STATUS_LABELS={active:"Attivo",frozen:"Congelato"};
 let state={yearId:"",docData:{},publicData:{},selectedMonth:"",publicLoaded:false,privateLoaded:false,authenticated:false,staffMode:false,dirty:false,saveTimer:null,activeAdjustPg:"",activeOverridePg:""};
 let PRIVATE_CUP_UNSUB=null,PRIVATE_CUP_PUBLIC_TIMER=null;
@@ -673,7 +703,7 @@ function hourglassWidthAt(y){y=Math.max(0,Math.min(100,Number(y)||0));if(y<=43)r
 function hourglassArea(a,b){a=Math.max(0,Math.min(100,Number(a)||0));b=Math.max(0,Math.min(100,Number(b)||0));if(b<a)[a,b]=[b,a];const cuts=[0,43,50,57,100];let area=0;for(let i=0;i<cuts.length-1;i++){const lo=Math.max(a,cuts[i]),hi=Math.min(b,cuts[i+1]);if(hi<=lo)continue;area+=(hourglassWidthAt(lo)+hourglassWidthAt(hi))*(hi-lo)/2}return area}
 const HOURGLASS_TOTAL_AREA=hourglassArea(0,100);
 function hourglassFillForRatio(ratio){ratio=Math.max(0,Math.min(1,Number(ratio)||0));if(ratio<=0)return 0;if(ratio>=1)return 100;const target=HOURGLASS_TOTAL_AREA*ratio;let lo=0,hi=100;for(let i=0;i<28;i++){const mid=(lo+hi)/2,area=hourglassArea(100-mid,100);if(area<target)lo=mid;else hi=mid}return Math.round(((lo+hi)/2)*10)/10}
-function renderLeaderboard(){const annual=(state.publicData&&state.publicData.annual)||emptyHouseTotals(),monthTotals=(state.publicData&&state.publicData.months&&state.publicData.months[state.selectedMonth])||emptyHouseTotals(),ranks=rankings(annual),max=Math.max(0,...HOUSE_KEYS.map(h=>numeric(annual[h]))),host=$("leaderboard");host.innerHTML="";HOUSE_KEYS.slice().sort((a,b)=>ranks[a]-ranks[b]).forEach(h=>{const x=HOUSES[h],ratio=max>0?numeric(annual[h])/max:0,fill=hourglassFillForRatio(ratio),d=document.createElement("article");d.className="house-card"+(ranks[h]===1?" winner":"");d.style.cssText=houseStyle(h)+`;--fill:${fill}%`;d.innerHTML=`<div class="rank">${ranks[h]}°</div><div class="house-top"><div class="crest">${x.short}</div><div><div class="house-name">${x.name}</div><div class="house-meta">${ranks[h]===1?"In testa alla Coppa":"Classifica annuale"}</div></div></div><div class="house-total">${fmt(annual[h])}</div><div class="house-meta">Punti Casa</div><div class="house-month-chip">${signed(monthTotals[h])} nel mese selezionato</div><div class="hourglass" title="Riempimento proporzionale ai Punti Casa"></div>`;host.appendChild(d)});if(window.parent&&window.parent!==window){const scores={};HOUSE_KEYS.forEach(h=>{scores[h]=fmt(annual[h]);if(HOUSES[h]&&HOUSES[h].name)scores[HOUSES[h].name.toLowerCase()]=fmt(annual[h])});window.parent.postMessage({type:"SYNC_COPPA",scores:scores},"*")}}
+function renderLeaderboard(){const annual=(state.publicData&&state.publicData.annual)||emptyHouseTotals(),monthTotals=(state.publicData&&state.publicData.months&&state.publicData.months[state.selectedMonth])||emptyHouseTotals(),ranks=rankings(annual),max=Math.max(0,...HOUSE_KEYS.map(h=>numeric(annual[h]))),host=$("leaderboard");host.innerHTML="";HOUSE_KEYS.slice().sort((a,b)=>ranks[a]-ranks[b]).forEach(h=>{const x=HOUSES[h],ratio=max>0?numeric(annual[h])/max:0,fill=hourglassFillForRatio(ratio),d=document.createElement("article");d.className="house-card"+(ranks[h]===1?" winner":"");d.style.cssText=houseStyle(h)+`;--fill:${fill}%`;d.innerHTML=`<div class="rank">${ranks[h]}°</div><div class="house-top"><div class="crest"><img src="${x.crest}" alt="Stemma ${x.name}" loading="lazy"></div><div><div class="house-name">${x.name}</div><div class="house-meta">${ranks[h]===1?"In testa alla Coppa":"Classifica annuale"}</div></div></div><div class="house-total">${fmt(annual[h])}</div><div class="house-meta">Punti Casa</div><div class="house-month-chip">${signed(monthTotals[h])} nel mese selezionato</div><div class="hourglass" title="Riempimento proporzionale ai Punti Casa"></div>`;host.appendChild(d)});if(window.parent&&window.parent!==window){const scores={};HOUSE_KEYS.forEach(h=>{scores[h]=fmt(annual[h]);if(HOUSES[h]&&HOUSES[h].name)scores[HOUSES[h].name.toLowerCase()]=fmt(annual[h])});window.parent.postMessage({type:"SYNC_COPPA",scores:scores},"*")}}
 function renderPublicMonth(){const def=monthDefs(state.yearId).find(x=>x.key===state.selectedMonth),totals=(state.publicData&&state.publicData.months&&state.publicData.months[state.selectedMonth])||emptyHouseTotals(),ranks=rankings(totals),host=$("publicMonthRank");$("publicMonthTitle").textContent=def?`Andamento · ${def.label}`:"Andamento del mese";host.innerHTML="";HOUSE_KEYS.slice().sort((a,b)=>ranks[a]-ranks[b]).forEach(h=>{const x=HOUSES[h],e=document.createElement("div");e.className="month-rank-card";e.style.cssText=houseStyle(h);e.innerHTML=`<em>${ranks[h]}°</em><span>${x.name}</span><b>${fmt(totals[h])} punti</b>`;host.appendChild(e)})}
 function renderPublicStats(){
   const defs=monthDefs(state.yearId),def=defs.find(x=>x.key===state.selectedMonth),all=(state.publicData&&state.publicData.stats)||emptyPublicStats(),st=(all.months&&all.months[state.selectedMonth])||emptyMonthlyStats(),host=$("publicStats"),seasonHost=$("seasonStats");
@@ -681,15 +711,17 @@ function renderPublicStats(){
   $("recordMonthTitle").textContent=def?`Record · ${def.label}`:"Record del mese";
   const statusLabel=st.status==="closed"?"Definitivo":st.status==="live"?"In corso":"In attesa",statusEl=$("recordMonthStatus");statusEl.textContent=statusLabel;statusEl.className=`record-status ${st.status||"upcoming"}`;
   $("recordMonthNote").textContent=st.status==="closed"?"Record fissati quando sono comparsi i primi punti del mese successivo.":st.status==="live"?"Si aggiornano insieme alla classifica pubblicata della Coppa.":"Compariranno con i primi Punti Casa del mese.";
-  const add=(target,kicker,main,value,sub="",house="",kind="special",icon="✦")=>{
+  const add=(target,kicker,main,value,sub="",house="",kind="special",icon="✦",iconIsHtml=false)=>{
     const e=document.createElement("article");
-    e.className=`stat-card kind-${kind}`+(house?" house-stat":"");
+    e.className=
+      `stat-card kind-`+(kind)+(house?" house-stat":"");
     if(house)e.style.cssText=houseStyle(house);
-    e.innerHTML=`<div class="stat-sheen" aria-hidden="true"></div><div class="stat-icon" aria-hidden="true">${esc(icon)}</div><div class="stat-copy"><div class="stat-kicker">${esc(kicker)}</div><div class="stat-main">${esc(main||"—")}</div><div class="stat-value">${esc(value||"Nessun dato")}</div>${sub?`<div class="stat-sub">${esc(sub)}</div>`:""}</div>`;
+    const iconClass=`stat-icon`+(house&&kind==="house"?" house-crest":"");
+    e.innerHTML=`<div class="stat-sheen" aria-hidden="true"></div><div class="`+(iconClass)+`" aria-hidden="true">`+(iconIsHtml?icon:esc(icon))+`</div><div class="stat-copy"><div class="stat-kicker">`+(esc(kicker))+`</div><div class="stat-main">`+(esc(main||"—"))+`</div><div class="stat-value">`+(esc(value||"Nessun dato"))+`</div>`+(sub?`<div class="stat-sub">`+(esc(sub))+`</div>`:"")+`</div>`;
     target.appendChild(e)
   };
   const p=st.overall;add(host,"Miglior marcatore",p?p.pg:"—",p?`${fmt(p.points)} punti`:"Nessun dato",p?(HOUSES[p.house]?.name||""):"",p?.house||"","overall","♛");
-  HOUSE_KEYS.forEach(h=>{const x=st.houseLeaders&&st.houseLeaders[h];add(host,`Primato ${HOUSES[h].name}`,x?x.pg:"—",x?`${fmt(x.points)} punti`:"Nessun dato","Miglior contributo individuale",h,"house",HOUSES[h].short)});
+  HOUSE_KEYS.forEach(h=>{const x=st.houseLeaders&&st.houseLeaders[h];add(host,`Primato ${HOUSES[h].name}`,x?x.pg:"—",x?`${fmt(x.points)} punti`:"Nessun dato","Miglior contributo individuale",h,"house",`<img src="${HOUSES[h].crest}" alt="" loading="lazy">`,true)});
   const pc=st.postsChampion;add(host,"Penna instancabile",pc?pc.pg:"—",pc?`${fmt(pc.posts)} post validi`:"Nessun dato",pc?(HOUSES[pc.house]?.name||""):"",pc?.house||"","special","✒");
   const sc=st.stimaChampion;add(host,"Stima d’oro",sc?sc.pg:"—",sc?`${signed(sc.stimaPoints)} punti`:"Nessun dato","Maggior bonus mensile dalla Stima dei Docenti",sc?.house||"","special","✦");
   const hs=st.houseSpirit;add(host,"Spirito di Casa",hs?hs.pg:"—",hs?`${fmt(hs.rolePoints)} punti`:"Nessun dato","Più bonus da role esclusivamente della stessa Casa",hs?.house||"","special","⚜");
