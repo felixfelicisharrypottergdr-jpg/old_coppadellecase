@@ -684,8 +684,8 @@ function calculateMonth(monthKey){
     const elfoExtra=numeric(c.role)+numeric(c.manual),nonFantaStaff=numeric(c.staffNonFanta),fanta=numeric(c.staffFanta);
     const core=numeric(c.base)+numeric(c.stimaPoints)+elfoExtra+nonFantaStaff;
     h.elfoDirect+=elfoExtra;h.staffDirect+=nonFantaStaff+fanta;h.fantaDirect+=fanta;
-    if(c.status!=="active"){h.preservedPerformance+=core;continue}
-    if(posts<=0){h.inactivePgs.push(pg);h.directZero+=elfoExtra+nonFantaStaff;continue}
+    if(c.status!=="active"){h.preservedPerformance+=core;return}
+    if(posts<=0){h.inactivePgs.push(pg);h.directZero+=elfoExtra+nonFantaStaff;return}
     h.activePgs.push(pg);
     if(posts<=4){h.casualPgs.push(pg);h.casualPoints+=core}
     else{h.competitivePgs.push(pg);h.competitivePoints+=core;competitiveValues.push(core)}
