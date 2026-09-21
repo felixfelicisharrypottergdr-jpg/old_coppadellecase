@@ -676,23 +676,30 @@ function effectiveMonthContribution(pg,monthKey){
   return {status:"frozen",posts:0,base:0,stimaValue:null,stimaLabel:"",stimaModifier:0,stimaPoints:0,role:0,manual:0,staffDirect:0,staffNonFanta:0,staffFanta:0,snapshot:false};
 }
 function calculateMonth(monthKey){
-  const houses={};HOUSE_KEYS.forEach(h=>houses[h]={house:h,activePgs:[],inactivePgs:[],performance:0,compPerformance:0,preservedPerformance:0,elfoDirect:0,staffDirect:0,virtual:0,balancedPerformance:0,compBalancedPerformance:0,total:0,avgFloor:0,zeroFallback:false});
+  const houses={};HOUSE_KEYS.forEach(h=>houses[h]={house:h,activePgs:[],inactivePgs:[],casualPgs:[],competitivePgs:[],casualPoints:0,competitivePoints:0,preservedPerformance:0,directZero:0,elfoDirect:0,staffDirect:0,fantaDirect:0,virtual:0,virtualPoints:0,balancedPerformance:0,total:0,median:0,zeroFallback:false});
+  const competitiveValues=[];
   allPgNames().forEach(pg=>{
     const rec=state.docData.roster[pg];if(!rec||!HOUSES[rec.house])return;
-    const c=effectiveMonthContribution(pg,monthKey),h=houses[rec.house],perf=numeric(c.base)+numeric(c.stimaPoints);
-    /* Il contributo già maturato da un PG congelato rimane nel punteggio reale,
-       ma NON entra nella media usata per creare i PG virtuali. */
-    h.performance+=perf;h.elfoDirect+=numeric(c.role)+numeric(c.manual);h.staffDirect+=numeric(c.staffDirect);
-    if(c.status==="active"){
-      h.compPerformance+=perf;
-      if(numeric(c.posts)>0)h.activePgs.push(pg);else h.inactivePgs.push(pg);
-    }else h.preservedPerformance+=perf;
+    const c=effectiveMonthContribution(pg,monthKey),h=houses[rec.house],posts=numeric(c.posts);
+    const elfoExtra=numeric(c.role)+numeric(c.manual),nonFantaStaff=numeric(c.staffNonFanta),fanta=numeric(c.staffFanta);
+    const core=numeric(c.base)+numeric(c.stimaPoints)+elfoExtra+nonFantaStaff;
+    h.elfoDirect+=elfoExtra;h.staffDirect+=nonFantaStaff+fanta;h.fantaDirect+=fanta;
+    if(c.status!=="active"){h.preservedPerformance+=core;continue}
+    if(posts<=0){h.inactivePgs.push(pg);h.directZero+=elfoExtra+nonFantaStaff;continue}
+    h.activePgs.push(pg);
+    if(posts<=4){h.casualPgs.push(pg);h.casualPoints+=core}
+    else{h.competitivePgs.push(pg);h.competitivePoints+=core;competitiveValues.push(core)}
   });
-  const maxActive=Math.max(0,...HOUSE_KEYS.map(h=>houses[h].activePgs.length));
-  HOUSE_KEYS.forEach(k=>{const h=houses[k],n=h.activePgs.length;if(n>0){h.avgFloor=Math.floor(h.compPerformance/n);h.virtual=Math.max(0,maxActive-n);h.compBalancedPerformance=h.compPerformance+h.virtual*h.avgFloor;h.balancedPerformance=h.performance+h.virtual*h.avgFloor}});
-  const nonZero=HOUSE_KEYS.map(k=>houses[k]).filter(h=>h.activePgs.length>0),policy=(state.docData.settings&&state.docData.settings.zeroHousePolicy)||"legacy";
-  HOUSE_KEYS.forEach(k=>{const h=houses[k];if(h.activePgs.length===0){h.virtual=maxActive;let fallback=0;if(policy==="legacy"&&nonZero.length&&maxActive>1){const minBalanced=Math.min(...nonZero.map(x=>x.compBalancedPerformance));fallback=minBalanced*(maxActive-1);h.zeroFallback=true}h.compBalancedPerformance=fallback;h.balancedPerformance=h.performance+fallback}h.total=h.balancedPerformance+h.elfoDirect+h.staffDirect});
-  return {houses,maxActive};
+  competitiveValues.sort((a,b)=>a-b);
+  let median=0;
+  if(competitiveValues.length){const mid=Math.floor(competitiveValues.length/2);median=competitiveValues.length%2?competitiveValues[mid]:Math.floor((competitiveValues[mid-1]+competitiveValues[mid])/2)}
+  const maxCompetitive=Math.max(0,...HOUSE_KEYS.map(h=>houses[h].competitivePgs.length));
+  HOUSE_KEYS.forEach(k=>{
+    const h=houses[k];h.median=median;h.virtual=Math.max(0,maxCompetitive-h.competitivePgs.length);h.virtualPoints=h.virtual*median;
+    h.balancedPerformance=h.casualPoints+h.competitivePoints+h.preservedPerformance+h.directZero+h.virtualPoints;
+    h.total=h.balancedPerformance+h.fantaDirect;
+  });
+  return {houses,maxActive:maxCompetitive,maxCompetitive,median,competitiveValues};
 }
 function calculateAnnual(){const totals={};HOUSE_KEYS.forEach(h=>totals[h]=0);monthDefs(state.yearId).forEach(m=>{const c=calculateMonth(m.key);HOUSE_KEYS.forEach(h=>totals[h]+=c.houses[h].total)});return totals}
 function rankings(totals){return HOUSE_KEYS.slice().sort((a,b)=>numeric(totals[b])-numeric(totals[a])).reduce((o,h,i)=>(o[h]=i+1,o),{})}
