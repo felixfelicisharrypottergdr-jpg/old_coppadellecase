@@ -299,7 +299,7 @@ tr.month-idle td{background-image:linear-gradient(rgba(180,145,72,.028),rgba(180
     </section>
 
     <section class="panel students-panel">
-      <div class="panel-head"><div><h2>Studenti attivi</h2><p class="help panel-subhelp">Lo stato manuale è soltanto <b>Attivo</b> o <b>Congelato</b>. Un PG attivo con 0 post validi nel mese resta qui, ma è automaticamente inattivo ai fini della compensazione e dei record.</p></div><span id="saveStatus" class="connection"></span></div>
+      <div class="panel-head"><div><h2>Studenti attivi</h2><p class="help panel-subhelp">Lo stato manuale è soltanto <b>Attivo</b> o <b>Congelato</b>. Un PG attivo con 0 post validi nel mese resta qui, ma non è classificato né come Casual né come Competitivo e non entra nel riequilibrio.</p></div><span id="saveStatus" class="connection"></span></div>
       <div class="filters">
         <div class="field search"><label>Cerca PG</label><input id="searchInput" type="text" placeholder="Nome del Personaggio"></div>
         <div class="field"><label>Casa</label><select id="houseFilter"><option value="">Tutte</option><option value="unassigned">Da assegnare</option><option value="grifondoro">Grifondoro</option><option value="tassorosso">Tassorosso</option><option value="corvonero">Corvonero</option><option value="serpeverde">Serpeverde</option></select></div>
@@ -308,7 +308,7 @@ tr.month-idle td{background-image:linear-gradient(rgba(180,145,72,.028),rgba(180
       <div class="table-wrap"><table><thead><tr><th>PG</th><th>Casa</th><th>Stato</th><th>Post validi</th><th>Base</th><th>Stima Docenti</th><th>Mod. Stima/post</th><th>Punti Stima</th><th>Rendimento</th><th>+2 stessa Casa</th><th>Extra CB</th><th>Manuali Staff</th><th>Totale PG</th><th>Azioni</th></tr></thead><tbody id="pgBody"></tbody></table></div>
 
       <details id="frozenDetails" class="frozen-roster">
-        <summary><span>Studenti congelati</span><span id="frozenCount" class="frozen-count">0</span><small>Non contano nella compensazione e non compaiono nei record.</small></summary>
+        <summary><span>Studenti congelati</span><span id="frozenCount" class="frozen-count">0</span><small>Non entrano nel riequilibrio e non compaiono nei record.</small></summary>
         <div class="frozen-inner">
           <p class="help">Il contributo maturato prima del congelamento resta valido. Puoi riattivare un PG dal mese selezionato; da quel momento tornerà a contribuire normalmente.</p>
           <div class="table-wrap frozen-table-wrap"><table class="frozen-table"><thead><tr><th>PG</th><th>Casa</th><th>Congelato da</th><th>Contributo conservato</th><th>Azioni</th></tr></thead><tbody id="frozenPgBody"></tbody></table></div>
