@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -27,6 +26,153 @@
 @media(max-width:1100px){.app-shell{grid-template-columns:255px minmax(0,1fr);gap:15px;padding:15px}.top-inner{gap:10px}.brand strong{font-size:21px}.brand small{display:none}.search-frame{max-width:none}.paper{font-size:16px}.archive-results{grid-template-columns:1fr}}@media(max-width:780px){.top-inner{flex-wrap:wrap;padding:8px 12px}.top-actions{order:1}.brand{order:0}.search-frame{order:2;flex-basis:100%}.app-shell{display:block;padding:10px}.sidebar{position:relative;top:0;max-height:none;margin-bottom:12px}.sidebar-scroll{max-height:300px}.section-nav{display:none}.sidebar.open .section-nav{display:grid}.reader-tools{display:block}.reading-buttons{margin-top:13px}.filter-panel{grid-template-columns:1fr 1fr}.paper{padding:22px 19px 42px}.chapter [style*="column-count"]{column-count:2!important}.floating-nav{bottom:12px;right:10px}.floating-nav button span{display:none}}@media(max-width:510px){.filter-panel{grid-template-columns:1fr}.chapter [style*="column-count"]{column-count:1!important}.chapter .titolo1{font-size:35px}.chapter .titolo2{font-size:25px}.chapter .specchietto,.chapter .inca-animus,.chapter .inca-ars,.chapter .inca-sensus,.chapter .inca-auto{padding:20px 13px}.chapter .nome-inca{font-size:28px}.chapter .desc-inca{font-size:17px}.site-foot{display:block}.archive-toolbar{display:block}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
+/* ==========================================
+   V2 — LEGGIBILITÀ E POSTAZIONE DI LETTURA
+   La pagina rimane ferma; il foglio scorre.
+   Il pannello dell'indice ha un suo scroll
+   soltanto se le voci eccedono l'altezza utile.
+   ========================================== */
+@font-face{
+  font-family:'magic';
+  src:url('https://dl.dropboxusercontent.com/scl/fi/nbzmrri4qyvc3tzx96911/HarryBeastDisplay-Regular.woff2?rlkey=he290voe32k33gowug23c1osc&st=nj9fgly1') format('woff2');
+  font-style:normal;
+  font-weight:normal;
+  font-display:swap;
+}
+:root{--reader-font-size:18px;--reader-line-height:1.78}
+html,body{height:100%;min-height:0;overflow:hidden}
+html{scroll-behavior:auto}
+body{display:flex;flex-direction:column;overscroll-behavior:none}
+.topbar{position:relative;top:auto;flex:0 0 auto;z-index:50}
+.top-inner{min-height:72px;padding:9px 20px}
+.brand strong{font-family:magic,Federo,'MedievalSharp',Georgia,serif;font-size:26px;font-variant:small-caps}
+.search-frame input{font-size:15px;padding-block:11px}
+.header-button{transition:background .15s,border-color .15s}
+.app-shell{flex:1 1 0;min-height:0;height:auto;width:100%;max-width:1540px;margin:0 auto;padding:15px 18px 12px;grid-template-columns:282px minmax(0,1fr);gap:18px;align-items:stretch;justify-content:center}
+.sidebar{position:relative;top:auto;height:100%;max-height:none;min-height:0;align-self:stretch;display:flex;flex-direction:column;border-radius:9px}
+.sidebar-scroll{height:100%;max-height:none;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9c763e #2a2119;padding:17px 13px 20px}
+.chapter-link{padding:9px 10px;border-radius:0 5px 5px 0}
+.section-link{padding:8px 9px;line-height:1.4}
+.side-foot{font-size:11px;margin-top:20px}
+.main{display:flex;flex-direction:column;min-height:0;height:100%;max-height:100%;max-width:1100px;width:100%;margin:0 auto;overflow:hidden}
+.crumbs{flex:0 0 auto;min-height:29px;margin:0 0 10px;padding:1px 3px 0;font-size:12px}
+.reader-view{display:flex;flex-direction:column;flex:1 1 0;min-height:0;max-height:100%;overflow:hidden;border-radius:9px;box-shadow:0 12px 32px #0009}
+.reader-tools{flex:0 0 auto;min-height:82px;padding:13px clamp(17px,3vw,30px);border-radius:9px 9px 0 0;gap:12px;background:linear-gradient(170deg,#614630,#3a2a21 70%,#2c211a)}
+.view-heading{font-family:magic,Federo,'MedievalSharp',serif;font-size:clamp(24px,2.2vw,33px);font-variant:small-caps;line-height:1.18;color:#f1d6a1;text-shadow:0 2px 2px #1c110d;letter-spacing:.035em}
+.reading-buttons{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.reading-buttons button{padding:8px 10px;font-size:12px;min-height:35px}
+.reading-buttons button:focus-visible,.font-controls button:focus-visible{outline-color:#f4db8b}
+.font-controls{display:flex;gap:2px;align-items:center;padding:3px 4px;border:1px solid #8e724c;border-radius:5px;background:#100e0c35;margin-left:6px}
+.font-controls button{font-weight:bold;font-size:14px;padding:5px 10px;border:0;background:transparent;color:#f8e6c5;min-height:29px}
+.font-controls button:hover{background:#e0bd79;color:#302319}
+.font-controls button:disabled{opacity:.38;cursor:default}
+.font-controls .font-size-value{font:12px Federo,Georgia,serif;color:#e7d4b0;min-width:25px;text-align:center}
+.reading-buttons .focus-toggle{border-color:#997c52;background:#ffffff06}
+.reading-buttons .focus-toggle[aria-pressed=true]{background:#d4af6c;color:#342211;border-color:#f4d491}
+.paper{flex:1 1 0;min-height:0;height:auto;max-height:none;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scroll-behavior:smooth;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#b58c49 #e8d8bc;padding:29px max(30px,calc((100% - 790px)/2)) 48px;box-shadow:inset 0 12px 26px #8a693716;background-size:auto,318px 272px;font-size:var(--reader-font-size);line-height:var(--reader-line-height);hyphens:auto;text-align:left}
+.paper:focus-visible{outline:3px solid #c69739;outline-offset:-4px}
+.chapter .titolo1,.chapter .titolo2,.chapter .titolo3{font-family:magic,'MedievalSharp',Georgia,serif;letter-spacing:.075em;line-height:1.3}
+.chapter .titolo1{margin:7px 0 33px}
+.chapter .titolo2{margin-top:43px;margin-bottom:19px}
+.chapter .titolo3{margin-top:30px;margin-bottom:17px}
+.chapter .esempio,.chapter .why,.chapter .principio{line-height:1.62}
+.chapter .nota,.chapter .bonus{line-height:1.62}
+/* Testi su superfici scure e tabelle devono mantenere dimensioni indipendenti. */
+.chapter :is(.esempio,.why,.principio){font-size:calc(var(--reader-font-size) * .94)}
+.chapter :is(.nota,.bonus){font-size:calc(var(--reader-font-size) * .91)}
+.chapter .specchietto .desc-inca{hyphens:none;line-height:1.48}
+.chapter .specchietto details{line-height:1.65}
+.chapter table{font-variant-numeric:tabular-nums}
+.chapter :is(.titolo1,.titolo2,.titolo3),.chapter .legacy-anchor,.chapter [id]{scroll-margin-top:22px}
+.bottom-nav{flex:0 0 auto;min-height:49px;border-radius:0 0 8px 8px;padding:9px 17px}
+.archive-view{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ad8549 #e6d6b8;border-radius:9px;padding:22px clamp(20px,3vw,34px) 35px;box-shadow:0 12px 30px #0008}
+.archive-intro h1{font-family:magic,'MedievalSharp',Georgia,serif;line-height:1.14;font-size:clamp(34px,3vw,43px)}
+.filter-panel{gap:11px;padding:16px}
+.archive-card{box-shadow:0 3px 8px #5c452015;transition:box-shadow .12s,border-color .12s}
+.archive-card:hover{box-shadow:0 6px 17px #6c451d22;border-color:#b89864}
+.site-foot{flex:0 0 auto;min-height:29px;max-width:1540px;width:100%;margin:0 auto;padding:6px 20px 9px;font-size:10px;line-height:1.35;border-top-color:#665236}
+.floating-nav{right:23px;bottom:43px}
+.floating-nav button{background:#392a20e9}
+/* Lettura a piena larghezza: opzionale; mantiene comunque un'ampiezza di riga comoda. */
+.app-shell.focus-mode{grid-template-columns:minmax(0,1fr)}
+.app-shell.focus-mode .sidebar{display:none}
+.app-shell.focus-mode .main{max-width:1100px}
+/* Nessun salto della viewport nelle transizioni fra libro ed elenchi. */
+[hidden]{display:none!important}
+@media(max-width:1060px){
+ .app-shell{grid-template-columns:247px minmax(0,1fr);gap:12px;padding:12px}
+ .reader-tools{align-items:flex-start}
+ .reading-buttons{gap:4px}
+ .paper{padding-left:max(22px,calc((100% - 710px)/2));padding-right:max(22px,calc((100% - 710px)/2))}
+}
+@media(max-width:780px){
+ .top-inner{min-height:60px;padding:7px 12px;gap:9px}
+ .top-actions{order:1}
+ .search-frame{order:2}
+ .app-shell{display:block;position:relative;padding:9px 10px 11px;min-height:0;flex:1 1 0}
+ .main{height:100%;min-height:0;max-width:none}
+ .sidebar{display:none;position:absolute;top:7px;bottom:7px;left:10px;z-index:45;width:min(310px,calc(100% - 20px));height:auto;box-shadow:8px 9px 26px #000b}
+ .sidebar.open{display:flex}
+ .sidebar-scroll{max-height:none;height:100%}
+ .sidebar .section-nav{display:grid}
+ .reader-tools{min-height:0;display:block;padding:12px 15px}
+ .reading-buttons{justify-content:flex-start;margin-top:8px}
+ .paper{padding:22px max(18px,calc((100% - 710px)/2)) 36px;min-height:0;max-height:none;font-size:var(--reader-font-size)}
+ .site-foot{padding:4px 10px;font-size:9px}
+ .floating-nav{bottom:38px;right:15px}
+}
+@media(max-height:660px){
+ .top-inner{min-height:58px;padding-block:5px}
+ .reader-tools{min-height:67px;padding-block:9px}
+ .app-shell{padding-block:8px}
+ .paper{padding-top:17px}
+ .site-foot{padding-block:3px}
+}
+@media(prefers-reduced-motion:reduce){.paper{scroll-behavior:auto}}
+/* Lo spazio del foglio è prezioso: elimina i ritorni vuoti immediatamente dopo i titoli. */
+.chapter :is(.titolo1,.titolo2,.titolo3) + br.paragraph-gap{display:none}
+.chapter .titolo1:first-child{margin-top:0;margin-bottom:15px}
+.chapter .titolo2{margin-top:31px}
+
+
+/* === V3: viewport di lettura ampliata === */
+.top-inner{min-height:60px;padding:6px 18px;gap:14px}
+.brand strong{font-size:23px}
+.brand small{font-size:10px}
+.search-frame input{padding-top:9px;padding-bottom:9px}
+.header-button{padding:9px 11px}
+.app-shell{max-width:1760px;padding:9px 12px 8px;grid-template-columns:250px minmax(0,1fr);gap:12px}
+.sidebar-scroll{padding:12px 10px 14px}
+.side-heading{margin-top:1px;margin-bottom:7px}
+.chapter-link{padding:7px 8px;font-size:14px}
+.side-divider{margin:12px 4px}
+.section-link{padding:6px 7px;font-size:12.5px}
+.main{max-width:none}
+.crumbs{min-height:21px;margin:0 0 5px;font-size:11.5px}
+.reader-tools{min-height:61px;padding:8px 16px}
+.edition{font-size:9.5px;letter-spacing:.12em}
+.view-heading{margin-top:3px;font-size:clamp(22px,1.75vw,29px)}
+.reading-buttons button{padding:6px 9px;min-height:31px;font-size:11.5px}
+.font-controls{padding:1px 3px}
+.font-controls button{min-height:25px;padding:3px 8px}
+.paper{padding:24px max(28px,calc((100% - 980px)/2)) 34px;line-height:1.68}
+.bottom-nav{min-height:38px;padding:6px 13px;font-size:11px}
+.bottom-nav button{padding:6px 9px}
+.site-foot{min-height:20px;padding:3px 14px 5px;font-size:9px}
+.floating-nav{bottom:28px}
+.app-shell.focus-mode .main{max-width:none}
+@media(max-width:1200px){
+ .app-shell{grid-template-columns:225px minmax(0,1fr);gap:10px}
+ .paper{padding-left:max(22px,calc((100% - 880px)/2));padding-right:max(22px,calc((100% - 880px)/2))}
+}
+@media(max-height:760px){
+ .top-inner{min-height:54px;padding-block:4px}
+ .reader-tools{min-height:55px;padding-block:6px}
+ .crumbs{min-height:18px;margin-bottom:4px}
+ .app-shell{padding-block:6px}
+ .bottom-nav{min-height:34px;padding-block:4px}
+ .site-foot{display:none}
+}
 </style>
 </head>
 <body>
@@ -58,8 +204,8 @@
  <main id="main" class="main" tabindex="-1">
   <nav class="crumbs" aria-label="Percorso"><span>Regolamento</span><span class="crumb-sep">›</span><span>Le Conoscenze</span><span class="crumb-sep">›</span><strong id="breadcrumbChapter">Autoconclusive</strong><span class="crumb-section" id="breadcrumbSection"></span></nav>
   <section id="readerView" class="reader-view" aria-label="Lettore del regolamento">
-   <div class="reader-tools"><div><span class="edition">LE CONOSCENZE · TESTO INTEGRALE</span><h1 id="viewHeading" class="view-heading">Conoscenze Autoconclusive</h1></div><div class="reading-buttons"><button id="previousSection" title="Sezione precedente">← Precedente</button><button id="nextSection" title="Sezione successiva">Successiva →</button></div></div>
-   <div id="paper" class="paper foglio">
+   <div class="reader-tools"><div><span class="edition">LE CONOSCENZE · TESTO INTEGRALE</span><h1 id="viewHeading" class="view-heading">Conoscenze Autoconclusive</h1></div><div class="reading-buttons"><button id="previousSection" title="Sezione precedente">← Precedente</button><button id="nextSection" title="Sezione successiva">Successiva →</button><div class="font-controls" role="group" aria-label="Dimensione del testo"><button type="button" id="fontDecrease" aria-label="Riduci il testo" title="Riduci il testo">A−</button><span class="font-size-value" id="fontSizeValue" aria-live="polite">18</span><button type="button" id="fontIncrease" aria-label="Ingrandisci il testo" title="Ingrandisci il testo">A+</button></div><button type="button" class="focus-toggle" id="layoutFocus" aria-pressed="false" title="Nascondi o mostra l'indice">Solo lettura</button></div></div>
+   <div id="paper" class="paper foglio" role="region" aria-label="Testo del capitolo, area scorrevole" tabindex="0">
     <article class="chapter" data-chapter="auto" id="cap-auto" aria-label="Conoscenze Autoconclusive" hidden><h1 class="titolo1" id="auto-conoscenze-autoconclusive">Conoscenze Autoconclusive</h1>
 <br class="paragraph-gap"/>
 <a class="legacy-anchor" id="auto-cosasono"></a>
@@ -3350,13 +3496,13 @@ Nel caso in cui il PG inventi l'Oggetto Magico in questione anche ONGame, il pla
  }
  function updateReaderScroll(){
    if(state.mode!=='reader')return;
+   const paper=$('paper'),paperTop=paper.getBoundingClientRect().top;
    const heads=byChapter(state.chapter);
    let current=heads[0]?.id||null;
-   for(const h of heads){const el=$(h.id);if(el && el.getBoundingClientRect().top<158)current=h.id;else if(el)break;}
+   for(const h of heads){const el=$(h.id);if(el && el.getBoundingClientRect().top<=paperTop+62)current=h.id;else if(el)break;}
    if(current && state.active!==current)updateActiveHeading(current);
-   const article=chapters[state.chapter];const r=article.getBoundingClientRect();
-   const max=Math.max(1,r.height-window.innerHeight+135);
-   const frac=Math.max(0,Math.min(1,(135-r.top)/max));
+   const max=Math.max(1,paper.scrollHeight-paper.clientHeight);
+   const frac=Math.max(0,Math.min(1,paper.scrollTop/max));
    $('readingProgress').style.width=(frac*100).toFixed(1)+'%';
  }
  function go(target,push=true){
@@ -3367,7 +3513,7 @@ Nel caso in cui il PG inventi l'Oggetto Magico in questione anche ONGame, il pla
      $('breadcrumbChapter').textContent='Esplora gli elenchi';$('breadcrumbSection').textContent='';
      $('sectionNav').hidden=true;$('readingProgress').style.width='0';
      document.querySelectorAll('.chapter-link').forEach(e=>e.classList.remove('active'));
-     renderArchive(true); if(push)history.pushState(null,'','#archivio');window.scrollTo(0,0);return;
+     renderArchive(true); if(push)history.pushState(null,'','#archivio');$('archiveView').scrollTop=0;document.querySelector('.sidebar').classList.remove('open');return;
    }
    const ch=CHAPTERS.find(c=>target==='cap-'+c.key || target.startsWith(c.key+'-') || target.startsWith('voce-'+c.key+'-'));
    if(!ch)return;
@@ -3379,11 +3525,13 @@ Nel caso in cui il PG inventi l'Oggetto Magico in questione anche ONGame, il pla
    $('viewHeading').textContent=ch.title;$('breadcrumbChapter').textContent=ch.short;
    $('sectionNav').hidden=!state.tocExpanded;buildToc();
    if(push)history.pushState(null,'','#'+target);
+   document.querySelector('.sidebar').classList.remove('open');
    requestAnimationFrame(()=>{
-      const el=$(target), top=target.startsWith('cap-')?0:(el?el.getBoundingClientRect().top+window.scrollY-103:0);
-      window.scrollTo({top:Math.max(0,top),behavior:'instant'});
-      const section=byChapter(ch.key).findLast(h=>{const x=$(h.id);return x && x.getBoundingClientRect().top<155;});
-      updateActiveHeading(section?.id||byChapter(ch.key)[0].id);
+      const paper=$('paper'),el=$(target);
+      const top=target.startsWith('cap-')?0:(el?paper.scrollTop+el.getBoundingClientRect().top-paper.getBoundingClientRect().top-25:0);
+      paper.scrollTo({top:Math.max(0,top),behavior:'instant'});
+      const section=byChapter(ch.key).findLast(h=>{const x=$(h.id);return x && x.getBoundingClientRect().top<=paper.getBoundingClientRect().top+65;});
+      updateActiveHeading(section?.id||byChapter(ch.key)[0]?.id);
       updateReaderScroll();
    });
  }
@@ -3446,7 +3594,7 @@ Nel caso in cui il PG inventi l'Oggetto Magico in questione anche ONGame, il pla
  function selected(){return {q:canonical($('archiveSearch').value.trim()),kind:$('filterKind').value,subject:$('filterSubject').value,category:$('filterCategory').value,year:$('filterYear').value,legal:$('filterLegal').value}}
  function archiveFiltered(){const f=selected();return archiveData.filter(a=>(!f.q||a.search.includes(f.q))&&(!f.kind||a.kind===f.kind)&&(!f.subject||a.subject===f.subject)&&(!f.category||a.category===f.category)&&(!f.year||a.year===f.year)&&(!f.legal||a.illegal))}
  function renderArchive(reset){
-    if(reset)state.visible=65;
+    if(reset){state.visible=65;$('archiveView').scrollTop=0;}
     const data=archiveFiltered(),into=$('archiveResults');into.replaceChildren();
     $('archiveCount').textContent=data.length+' '+(data.length===1?'voce trovata':'voci trovate');$('archiveEmpty').hidden=Boolean(data.length);
     data.slice(0,state.visible).forEach(item=>{
@@ -3467,10 +3615,31 @@ Nel caso in cui il PG inventi l'Oggetto Magico in questione anche ONGame, il pla
  $('previousSection').onclick=$('bottomPrevious').onclick=()=>adjacent(-1);
  $('nextSection').onclick=$('bottomNext').onclick=()=>adjacent(1);
  $('collapseToc').onclick=()=>{state.tocExpanded=!state.tocExpanded;$('sectionNav').hidden=!state.tocExpanded;$('collapseToc').textContent=state.tocExpanded?'−':'+';$('collapseToc').setAttribute('aria-expanded',String(state.tocExpanded))};
- $('quickTop').onclick=()=>{const article=chapters[state.chapter];if(state.mode==='archive')window.scrollTo({top:0,behavior:'smooth'});else go(byChapter(state.chapter)[0].id)};
- $('quickIndex').onclick=()=>{if(state.mode==='archive'){$('filterKind').focus();return;}state.tocExpanded=true;$('sectionNav').hidden=false;$('collapseToc').textContent='−';$('collapseToc').setAttribute('aria-expanded','true');document.querySelector('.sidebar').classList.add('open');$('sectionNav').querySelector('button')?.focus()};
+ $('quickTop').onclick=()=>{if(state.mode==='archive')$('archiveView').scrollTo({top:0,behavior:'smooth'});else go(byChapter(state.chapter)[0].id)};
+ $('quickIndex').onclick=()=>{if(state.mode==='archive'){$('filterKind').focus();return;}if(document.querySelector('.app-shell').classList.contains('focus-mode')){$('layoutFocus').click();}state.tocExpanded=true;$('sectionNav').hidden=false;$('collapseToc').textContent='−';$('collapseToc').setAttribute('aria-expanded','true');document.querySelector('.sidebar').classList.toggle('open',window.matchMedia('(max-width:780px)').matches);$('sectionNav').querySelector('button')?.focus()};
+ // Controls are intentionally limited: readable typography and an optional focus view.
+ const paper=$('paper');
+ let fontSize=18;
+ try{const saved=Number(localStorage.getItem('felix-reader-font-size'));if(saved>=16&&saved<=21)fontSize=saved;}catch(_){}
+ function updateFontSize(){
+   document.documentElement.style.setProperty('--reader-font-size',fontSize+'px');
+   $('fontSizeValue').textContent=String(fontSize);
+   $('fontDecrease').disabled=fontSize<=16;$('fontIncrease').disabled=fontSize>=21;
+   try{localStorage.setItem('felix-reader-font-size',String(fontSize));}catch(_){}
+   requestAnimationFrame(updateReaderScroll);
+ }
+ $('fontDecrease').onclick=()=>{fontSize=Math.max(16,fontSize-1);updateFontSize()};
+ $('fontIncrease').onclick=()=>{fontSize=Math.min(21,fontSize+1);updateFontSize()};
+ $('layoutFocus').onclick=()=>{
+    const focused=document.querySelector('.app-shell').classList.toggle('focus-mode');
+    $('layoutFocus').setAttribute('aria-pressed',String(focused));
+    $('layoutFocus').textContent=focused?'Mostra indice':'Solo lettura';
+    $('layoutFocus').title=focused?'Mostra l’indice':'Nascondi l’indice';
+    requestAnimationFrame(updateReaderScroll);
+ };
+ updateFontSize();
  window.addEventListener('popstate',hashRoute);
- window.addEventListener('scroll',updateReaderScroll,{passive:true});
+ $('paper').addEventListener('scroll',updateReaderScroll,{passive:true});
  window.addEventListener('resize',updateReaderScroll,{passive:true});
  // Gli hash interni all'articolo (ex: alfabeti) devono attivare il giusto capitolo.
  document.querySelectorAll('.chapter a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
